@@ -1,0 +1,205 @@
+[gd_scene load_steps=10 format=3 uid="uid://c470akm4lheev"]
+
+[ext_resource type="Script" path="res://Scripts/TallGrass.gd" id="1_vwv2x"]
+[ext_resource type="Texture2D" uid="uid://cabj8exbq0p7k" path="res://Assets/Tall_Grass.png" id="2_rjopj"]
+[ext_resource type="Texture2D" uid="uid://bpwf4wnv35e5k" path="res://Assets/Stepped_Tall_Grass.png" id="3_gd3wv"]
+[ext_resource type="Texture2D" uid="uid://bbygnrdws2h4" path="res://Assets/Stepped_Grass_Anim.png" id="4_oiin3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5pnom"]
+size = Vector2(12, 11)
+
+[sub_resource type="Animation" id="Animation_7t6ml"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackgroundGrass:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ForegroundGrass:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ForegroundGrassAnim:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ForegroundGrassAnim:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_5kgha"]
+resource_name = "idle"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackgroundGrass:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ForegroundGrass:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ForegroundGrassAnim:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1s05h"]
+resource_name = "stepped"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BackgroundGrass:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ForegroundGrass:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ForegroundGrassAnim:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ForegroundGrassAnim:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gsenb"]
+_data = {
+"RESET": SubResource("Animation_7t6ml"),
+"idle": SubResource("Animation_5kgha"),
+"stepped": SubResource("Animation_1s05h")
+}
+
+[node name="TallGrass" type="Node2D"]
+z_index = 10
+z_as_relative = false
+y_sort_enabled = true
+script = ExtResource("1_vwv2x")
+
+[node name="BackgroundGrass" type="Sprite2D" parent="."]
+z_index = 8
+z_as_relative = false
+position = Vector2(8, 8)
+texture = ExtResource("2_rjopj")
+hframes = 2
+
+[node name="ForegroundGrass" type="Sprite2D" parent="."]
+z_index = 10
+z_as_relative = false
+y_sort_enabled = true
+texture = ExtResource("3_gd3wv")
+centered = false
+
+[node name="ForegroundGrassAnim" type="Sprite2D" parent="."]
+visible = false
+z_index = 10
+z_as_relative = false
+y_sort_enabled = true
+position = Vector2(0, 4)
+texture = ExtResource("4_oiin3")
+centered = false
+vframes = 3
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 8)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_5pnom")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gsenb")
+}
+
+[connection signal="body_entered" from="Area2D" to="." method="on_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="on_body_exited"]

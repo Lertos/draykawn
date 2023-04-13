@@ -1,0 +1,86 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3pnd3m6jt6vn"]
+
+[ext_resource type="Texture2D" uid="uid://c6aqabht27c4b" path="res://title_screen_background.png" id="1_qgevk"]
+[ext_resource type="Script" path="res://Scripts/LoginScene.gd" id="1_w15e4"]
+[ext_resource type="FontFile" uid="uid://b5jk8ktkxkasi" path="res://8-bit-hud.ttf" id="2_n4m7b"]
+
+[sub_resource type="Theme" id="Theme_3yl1p"]
+default_font = ExtResource("2_n4m7b")
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_k8c5v"]
+default_font = ExtResource("2_n4m7b")
+default_font_size = 7
+
+[sub_resource type="Theme" id="Theme_lg27h"]
+
+[node name="LoginScene" type="Node2D"]
+script = ExtResource("1_w15e4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(162.039, 90)
+scale = Vector2(0.22549, 0.22549)
+texture = ExtResource("1_qgevk")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 320.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="GameTitle" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme = SubResource("Theme_3yl1p")
+theme_override_colors/font_color = Color(0.584314, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "DRAYKAWN"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_k8c5v")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Server Info"
+horizontal_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(160, 20)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_lg27h")
+placeholder_text = "Host IP"
+
+[node name="HostButton" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "HOST GAME"
+
+[node name="JoinButton" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "JOIN GAME"
+
+[connection signal="pressed" from="Control/VBoxContainer/HostButton" to="." method="on_host_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/JoinButton" to="." method="on_join_pressed"]
