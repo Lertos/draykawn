@@ -438,12 +438,16 @@ graph_offset = Vector2(-35, 19)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
+z_as_relative = false
 y_sort_enabled = true
 collision_mask = 15
 script = ExtResource("1_bu31b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
+z_index = 10
+z_as_relative = false
+y_sort_enabled = true
 texture = ExtResource("2_eh4b4")
 centered = false
 offset = Vector2(0, -4)

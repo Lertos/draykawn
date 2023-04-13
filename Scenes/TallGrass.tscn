@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c470akm4lheev"]
+[gd_scene load_steps=11 format=3 uid="uid://c470akm4lheev"]
 
 [ext_resource type="Script" path="res://Scripts/TallGrass.gd" id="1_vwv2x"]
 [ext_resource type="Texture2D" uid="uid://cabj8exbq0p7k" path="res://Assets/Tall_Grass.png" id="2_rjopj"]
@@ -7,6 +7,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5pnom"]
 size = Vector2(12, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v3h7j"]
+size = Vector2(1, 1)
 
 [sub_resource type="Animation" id="Animation_7t6ml"]
 length = 0.001
@@ -25,34 +28,22 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ForegroundGrass:visible")
+tracks/1/path = NodePath("ForegroundGrassAnim:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ForegroundGrassAnim:frame")
+tracks/2/path = NodePath("ForegroundGrassAnim:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ForegroundGrassAnim:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -77,22 +68,10 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ForegroundGrass:visible")
+tracks/1/path = NodePath("ForegroundGrassAnim:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ForegroundGrassAnim:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -117,34 +96,22 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ForegroundGrass:visible")
+tracks/1/path = NodePath("ForegroundGrassAnim:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ForegroundGrassAnim:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 1, 2]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ForegroundGrassAnim:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ForegroundGrassAnim:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.35),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -172,15 +139,15 @@ texture = ExtResource("2_rjopj")
 hframes = 2
 
 [node name="ForegroundGrass" type="Sprite2D" parent="."]
-z_index = 10
+visible = false
+z_index = 11
 z_as_relative = false
-y_sort_enabled = true
 texture = ExtResource("3_gd3wv")
 centered = false
 
 [node name="ForegroundGrassAnim" type="Sprite2D" parent="."]
 visible = false
-z_index = 10
+z_index = 11
 z_as_relative = false
 y_sort_enabled = true
 position = Vector2(0, 4)
@@ -196,6 +163,12 @@ collision_layer = 4
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_5pnom")
 
+[node name="InnerArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InnerArea2D"]
+position = Vector2(8, 0.5)
+shape = SubResource("RectangleShape2D_v3h7j")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_gsenb")
@@ -203,3 +176,5 @@ libraries = {
 
 [connection signal="body_entered" from="Area2D" to="." method="on_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="on_body_exited"]
+[connection signal="body_entered" from="InnerArea2D" to="." method="on_inner_area_entered"]
+[connection signal="body_exited" from="InnerArea2D" to="." method="on_inner_area_exited"]
