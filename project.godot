@@ -18,7 +18,6 @@ config/features=PackedStringArray("4.0", "Mobile")
 
 GlobalSettings="*res://Scripts/Autoload/GlobalSettings.gd"
 Utility="*res://Scripts/Autoload/Utility.gd"
-Network="*res://Scripts/Autoload/Network.gd"
 
 [display]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3pnd3m6jt6vn"]
+[gd_scene load_steps=5 format=3 uid="uid://b3pnd3m6jt6vn"]
 
 [ext_resource type="Texture2D" uid="uid://c6aqabht27c4b" path="res://title_screen_background.png" id="1_qgevk"]
 [ext_resource type="Script" path="res://Scripts/LoginScene.gd" id="1_w15e4"]
@@ -7,12 +7,6 @@
 [sub_resource type="Theme" id="Theme_3yl1p"]
 default_font = ExtResource("2_n4m7b")
 default_font_size = 20
-
-[sub_resource type="Theme" id="Theme_k8c5v"]
-default_font = ExtResource("2_n4m7b")
-default_font_size = 7
-
-[sub_resource type="Theme" id="Theme_lg27h"]
 
 [node name="LoginScene" type="Node2D"]
 script = ExtResource("1_w15e4")
@@ -54,33 +48,10 @@ theme_override_constants/outline_size = 6
 text = "DRAYKAWN"
 horizontal_alignment = 1
 
-[node name="Label" type="Label" parent="Control/VBoxContainer"]
-layout_mode = 2
-theme = SubResource("Theme_k8c5v")
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Server Info"
-horizontal_alignment = 1
-
-[node name="TextEdit" type="TextEdit" parent="Control/VBoxContainer"]
-custom_minimum_size = Vector2(160, 20)
-layout_direction = 2
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = SubResource("Theme_lg27h")
-placeholder_text = "Host IP"
-
-[node name="HostButton" type="Button" parent="Control/VBoxContainer"]
+[node name="StartButton" type="Button" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "HOST GAME"
+text = "START"
 
-[node name="JoinButton" type="Button" parent="Control/VBoxContainer"]
-custom_minimum_size = Vector2(70, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "JOIN GAME"
-
-[connection signal="pressed" from="Control/VBoxContainer/HostButton" to="." method="on_host_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/JoinButton" to="." method="on_join_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/StartButton" to="." method="on_start_button_pressed"]

@@ -32,26 +32,7 @@ var percent_moved_to_next_tile = 0.0
 
 
 func _ready():
-	#Making sure that RPC calls will go to the right paths (since Player nodes will have their names as the unique ID's)
-	name = str(get_multiplayer_authority())
-	
-	#-------------DEBUG ONLY-----------------
-	#Just to show characters as different sprites. Will load the texture they picked later on
-	var path = ""
-	
-	match Network.player_count:
-		0: path = "res://Assets/Characters/Human_Church_1.png"
-		1: path = "res://Assets/Characters/Human_Church_2.png"
-		2: path = "res://Assets/Characters/Human_Church_3.png"
-		_: path = "res://Assets/Characters/Human_Church_4.png"
-	
-	Network.player_count += 1
-	
-	$Sprite2D.texture = load(path)
-	#-------------DEBUG ONLY-----------------
-	
-	if is_multiplayer_authority():
-		set_collision_data()
+	set_collision_data()
 
 
 #Dynamically set the positions/sizes of all objects pertaining to the tile size
@@ -71,6 +52,8 @@ func set_spawn(spawn_location: Vector2, spawn_dir: Vector2):
 	set_input_dir(spawn_dir)
 	position = spawn_location
 	
+	set_visibility(true)
+	
 	reset_player_object()
 
 
@@ -85,23 +68,14 @@ func reset_player_object():
 
 
 func _physics_process(delta):
-	#Only send this player objects' data if we own it
-	if is_multiplayer_authority():
-		rpc("remote_set_player_info", position, input_dir, is_moving, stop_input)
-		
 	#Always respect the global movement stop setting first
-	if is_multiplayer_authority():
-		stop_input = GlobalSettings.stop_movement
-		
-		if stop_input:
-			#If we aren't finished the tile we are on, keep moving until we've reached it
-			if percent_moved_to_next_tile != 0.0:
-				move(delta)
-				return
-	
-	#If the player input has stopped then set the player to IDLE
-	if stop_input:
-		change_state_idle()
+	if GlobalSettings.stop_movement:
+		if percent_moved_to_next_tile != 0.0:
+			move(delta)
+			return
+		else:
+			#If the player input has stopped then set the player to IDLE
+			change_state_idle()
 		
 	#If the player must stop input or is turning; ignore any other input
 	if stop_input or player_state == PlayerState.TURNING:
@@ -114,8 +88,7 @@ func _physics_process(delta):
 	#If the player is moving and there is input in a direction, move the player
 	elif input_dir != Vector2.ZERO:
 		change_state_walk()
-		if is_multiplayer_authority():
-			move(delta)
+		move(delta)
 			
 	#If nothing happens, then the player is idle
 	else:
@@ -123,33 +96,8 @@ func _physics_process(delta):
 		reset_player_object()
 
 
-@rpc("unreliable")
-func remote_set_player_info(a_position, a_input_dir, a_is_moving, a_stop_input):
-	if Network.peer_id != multiplayer.get_remote_sender_id():
-		position = a_position
-		input_dir = a_input_dir
-		is_moving = a_is_moving
-		stop_input = a_stop_input
-
-
-#Updates the specific players object that has entered a new scene
-@rpc("reliable", "any_peer")
-func player_changed_scene(new_level_name: String, player_spawn_location, player_spawn_dir):
-	if Network.peer_id != multiplayer.get_remote_sender_id():
-		#Change the switching player object on everyones side
-		if name == str(multiplayer.get_remote_sender_id()):
-			current_level_name = new_level_name
-			set_spawn(player_spawn_location, player_spawn_dir)
-
-			if current_level_name != Network.loaded_scene:
-				set_visibility(false)
-			else:
-				set_visibility(true)
-
-
 func process_player_input():
-	if is_multiplayer_authority():
-		get_player_input_dir()
+	get_player_input_dir()
 	
 	if input_dir != Vector2.ZERO:
 		set_input_dir(input_dir)
