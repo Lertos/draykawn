@@ -49,9 +49,8 @@ func set_visibility(value: bool):
 
 
 func set_spawn(spawn_location: Vector2, spawn_dir: Vector2):
-	set_input_dir(spawn_dir)
 	position = spawn_location
-	
+	set_input_dir(spawn_dir)
 	set_visibility(true)
 	
 	reset_player_object()

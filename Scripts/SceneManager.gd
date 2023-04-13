@@ -11,11 +11,6 @@ func add_new_player():
 	var peer_player = PLAYER_SCENE.instantiate()
 
 	$PlayerList.add_child(peer_player)
-	
-	#Set the initial spawn location
-	#TODO: Set the initial spawn loc / dir from the player.dat file
-	peer_player.set_spawn(Vector2(0, 0), Vector2(0, 1))
-	peer_player.current_level_name = next_scene
 
 
 func load_initial_game():
